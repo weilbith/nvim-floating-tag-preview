@@ -13,11 +13,23 @@ local function get_preview_window_number()
   return -1
 end
 
-local function open_floating_preview_window(window_open_options)
+local function set_preview_window_options(window_number, window_options)
+  vim.validate({['preview window number'] = { window_number, 'number' }})
+  vim.validate({['preview window options'] = { window_options, 'table' }})
+
+  vim.api.nvim_win_set_option(window_number, 'previewwindow', true)
+
+  for name, value in pairs(window_options) do
+    vim.api.nvim_win_set_option(window_number, name, value)
+  end
+end
+
+local function open_floating_preview_window(window_open_options, window_set_options)
   vim.validate({['preview window open options'] = { window_open_options, 'table' }})
   vim.validate({['window window width'] = { window_open_options.width, 'number' }})
   vim.validate({['window window height'] = { window_open_options.height, 'number' }})
   -- Can not validate border as it can be either string or table.
+  vim.validate({['preview window set options'] = { window_set_options, 'table' }})
 
   local old_window_number = get_preview_window_number()
 
@@ -33,7 +45,7 @@ local function open_floating_preview_window(window_open_options)
   local buffer_number = vim.api.nvim_create_buf(false, true)
   local window_number = vim.api.nvim_open_win(buffer_number, false, window_options)
 
-  vim.api.nvim_win_set_option(window_number, 'previewwindow', true)
+  set_preview_window_options(window_number, window_set_options)
 
   return window_number
 end
