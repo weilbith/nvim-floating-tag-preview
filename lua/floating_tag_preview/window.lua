@@ -13,14 +13,6 @@ local function get_preview_window_number()
   return -1
 end
 
-local function close_floating_preview_window()
-  local window_number = get_preview_window_number()
-
-  if window_number ~= -1 then
-    vim.api.nvim_win_close(window_number, true)
-  end
-end
-
 local function open_floating_preview_window()
   local old_window_number = get_preview_window_number()
 
@@ -42,5 +34,4 @@ end
 
 return {
   open_floating_preview_window = open_floating_preview_window,
-  close_floating_preview_window = close_floating_preview_window
 }
