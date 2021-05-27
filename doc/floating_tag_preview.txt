@@ -21,9 +21,10 @@ INTRODUCTION~
 This plugin allows to easily preview tags in a floating window close to the
 cursor. It aims to work as a mostly invisible extension to the native preview
 functionality. In fact it tries to fill the gap of a still missing
-`previewfunc` option. At its core, it just opens a floating window before the
-native tag command gets executed. Because the native commands search first for
-an already existing preview window, they just pick up this window.
+`previewwindowfunc` option. At its core, it just opens a floating window
+before the native tag command gets executed. Because the native commands
+search first for an already existing preview window, they just pick up this
+window.
 
 Additionally it provides some minor additions to improve the preview
 functionality. Such include to automatically close the window on cursor
@@ -39,7 +40,7 @@ USAGE~
 Unfortunately is is not possible to overwrite native commands. As a
 compromise, this plugin clones all tag preview related commands with an upper
 case `P` version (e.g. `Ptag`, `Ptnext`, `Psearch`, ...). Native mappings
-(e.g. `<C-W>}`) get automatically overwritten to use the floating versions
+(e.g. |<C-W>_}|) get automatically overwritten to use the floating versions
 (can be disabled). Commands or mappings to focus (|CTRL-W_P|) or close
 (|CTRL-W_z|) the preview window manually just work as always. When the cursor
 moves, the window closes automatically again. While continue to preview
