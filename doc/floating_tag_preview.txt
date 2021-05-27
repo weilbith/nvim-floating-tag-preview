@@ -51,6 +51,10 @@ preview the word under the cursor. To cycle through the different definitions,
 use `:Ptnext`, `Ptprevious` and friends. But also `:Psearch` might be an
 interesting entrypoint.
 
+You can run the plugin's health check to verify that NeoVim version supports
+all necessary features (`:checkhealth floating_tag_preview`). Mind that this
+does not work if you load the plugin in a lazy manner.
+
 
 ==============================================================================
 					       *floating_tag_preview_commands*
