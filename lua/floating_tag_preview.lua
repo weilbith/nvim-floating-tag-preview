@@ -26,11 +26,11 @@ return function(tag_command_options)
 
   tag_command_utils.execute_command(tag_command_options)
 
-  if vim.g.floating_tag_preview_highlight_word or true then
+  if vim.g.floating_tag_preview_highlight_tag_word or true then
     highlight_utils.highlight_tag_word_in_preview_window(window_number)
   end
 
-  if vim.g.floating_tag_preview_auto_close or true then
+  if vim.g.floating_tag_preview_close_automatically or true then
     auto_command_utils.set_closing_auto_command()
   end
 end

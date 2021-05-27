@@ -1,0 +1,203 @@
+*floating_tag_preview.txt*		    Preview tags in a floating window
+
+Author:   Thore Weilbier <thore@weilbier.net>
+License:  MIT
+
+==============================================================================
+			              *floating_tag_preview_table_of_contents*
+TABLE OF CONTENTS~
+
+Introduction ............................. |floating_tag_preview_introduction|
+Usage ........................................... |floating_tag_preview_usage|
+Commands ..................................... |floating_tag_preview_commands|
+Variables ................................... |floating_tag_preview_variables|
+Highlights ................................. |floating_tag_preview_highlights|
+
+
+==============================================================================
+					   *floating_tag_preview_introduction*
+INTRODUCTION~
+
+This plugin allows to easily preview tags in a floating window close to the
+cursor. It aims to work as a mostly invisible extension to the native preview
+functionality. In fact it tries to fill the gap of a still missing
+`previewfunc` option. At its core, it just opens a floating window before the
+native tag command gets executed. Because the native commands search first for
+an already existing preview window, they just pick up this window.
+
+Additionally it provides some minor additions to improve the preview
+functionality. Such include to automatically close the window on cursor
+movement, open folds in the preview and apply highlight to the tag word. All
+features are quite generic, so they can be disabled individually but also
+can be also completely customized.
+
+
+==============================================================================
+						  *floating_tag_preview_usage*
+USAGE~
+
+Unfortunately is is not possible to overwrite native commands. As a
+compromise, this plugin clones all tag preview related commands with an upper
+case `P` version (e.g. `Ptag`, `Ptnext`, `Psearch`, ...). Native mappings
+(e.g. `<C-W>}`) get automatically overwritten to use the floating versions
+(can be disabled). Commands or mappings to focus (|CTRL-W_P|) or close
+(|CTRL-W_z|) the preview window manually just work as always. When the cursor
+moves, the window closes automatically again. While continue to preview
+different tags (or just see the different locations), the same window gets
+re-used and remains the same.
+
+To preview a simple tag just execute `:Ptag <tag-name>` or type |CTRL-W_}| to
+preview the word under the cursor. To cycle through the different definitions,
+use `:Ptnext`, `Ptprevious` and friends. But also `:Psearch` might be an
+interesting entrypoint.
+
+
+==============================================================================
+					       *floating_tag_preview_commands*
+COMMANDS~
+
+The following commands are cloned and map to their native lower case version:
+  
+  - `Ptag`
+  - `Ptselect`
+  - `Ptjump`
+  - `Ptnext`
+  - `PtNext`
+  - `Ptprevious`
+  - `Ptrewind`
+  - `Ptfirst`
+  - `Ptlast`
+  - `Pedit`
+  - `Psearch`
+
+
+It is not necessary to use all of them to be able to use the floating window
+everywhere. The native commands will just pick up the already open floating
+preview window right away. So for example it is fine to use `:Ptag <tag-name>`
+and then just |ptnext| right after.
+
+
+==============================================================================
+			                      *floating_tag_preview_variables*
+VARIABLES~
+
+The following variables can be set to customize the behavior of this plugin.
+In case you prefer to use Lua for your configuration, just use
+`vim.g.floating_tag_preview_<name> = <value>` . Just remember to use proper Lua
+syntax for booleans, lists and dictionaries/tables. Most variables can be
+changed during runtime to alternate the behavior. Exceptions are annotated.
+
+|g:floating_tag_preview_close_automatically|
+
+  Toggles the feature to automatically close the preview window on cursor
+  movement or window scrolling.
+
+  Default:~
+    `v:true`
+
+|g:floating_tag_preview_highlight_tag_word|
+
+  Toggles the feature to apply a highlight to the tag word in the preview
+  window. The highlighting itself can be customized with the
+  |FloatingTagPreviewTagWord| highlight group.
+
+  Default:~
+    `v:true`
+
+|g:floating_tag_preview_overwrite_mappings|
+
+  Toggles the automatic re-mapping of native preview tag mappings to use the
+  new floating command versions. Such include:
+
+    - |CTRL-W_}|
+    - |CTRL-W_g}|
+
+  This option can't be changed during runtime, but must be set before the
+  plugin loads.
+
+  Default:~
+    `v:true`
+
+|g:floating_tag_preview_height|
+
+  The target height for the floating window. Could shrink if there is not
+  enough space neither above nor below the cursor.
+
+  Default:~
+    Links to |'previewheight'| option
+
+  Example:~
+    `15`
+
+|g:floating_tag_preview_width|
+
+  The target width of the floating window. Could shrink if there is not enough
+  space neither to the left nor right side of the cursor.
+
+  Default:~
+    Links to |'textwidth'| option or `70` if undefined
+
+  Example:~
+    `100`
+
+|g:floating_tag_preview_border|
+
+  The border to use for the floating window. Checkout the help for
+  the |nvim_open_win()| API function to get more details for this option.
+
+  Default:~
+    `single`
+
+  Examples:~
+    `double` 
+    `["╔", "═" ,"╗", "║", "╝", "═", "╚", "║"]`
+
+|g:floating_tag_preview_window_options|
+
+  Options to apply to the floating window. Only window scoped options do work.
+  Used in first place to open folds in the preview. The |'previewwindow'|
+  options must always be set and can't be removed. The window gets opened with
+  the `minimal` style option. Thereby options like the sign column, numbers
+  and more get disabled per default. Though they could be manually enabled
+  again.
+
+  Default:~
+    `{ foldlevel: 100 }`
+
+  Examples:~
+    `{ numbers: v:true }` 
+    `{ foldlevel: 0, list: v:true }`
+
+|g:floating_tag_preview_buffer_options|
+
+  Options to apply to new buffers loaded to the preview window. Only buffer
+  scoped options do work. This only applies for newly loaded buffers. Buffers
+  that were already opened before do not get affected. The idea is that such
+  buffers should only exist temporally and then get unloaded again. Therefore
+  the primary intention of this setting is to hide and unload the buffer again
+  when the preview closes.
+
+  Default:~
+    `{ buflisted: v:false, bufhidden: 'wipe' }`
+
+  Examples:~
+    `{ modifiable: v:false }`
+    `{ swapfile: v:false, spell: v:true }` 
+
+
+==============================================================================
+			                     *floating_tag_preview_highlights*
+HIGHLIGHTS~
+
+|FloatingTagPreviewTagWord|
+
+  Highlight group used to highlight the tag word in the preview window. Can be
+  disabled with |g:floating_tag_preview_highlight_tag_word|.
+
+  Default:~
+    Links to |hl-Search| group
+
+
+==============================================================================
+
+vim:tw=78:ts=8:noet:ft=help:norl:
