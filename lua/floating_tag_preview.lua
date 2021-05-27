@@ -1,4 +1,5 @@
 local window_utils = require('floating_tag_preview.window')
+local highlight_utils = require('floating_tag_preview.highlight')
 local tag_command_utils = require('floating_tag_preview.tag_command')
 local auto_command_utils = require('floating_tag_preview.auto_commands')
 
@@ -16,11 +17,18 @@ return function(tag_command_options)
   }
 
   auto_command_utils.clear_closing_auto_command()
-  window_utils.open_floating_preview_window(
+  highlight_utils.determine_and_cache_tag_word(tag_command_options.arguments)
+
+  local window_number = window_utils.open_floating_preview_window(
     preview_window_open_options,
     preview_window_set_options
   )
+
   tag_command_utils.execute_command(tag_command_options)
+
+  if vim.g.floating_tag_preview_highlight_word or true then
+    highlight_utils.highlight_tag_word_in_preview_window(window_number)
+  end
 
   if vim.g.floating_tag_preview_auto_close or true then
     auto_command_utils.set_closing_auto_command()
