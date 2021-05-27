@@ -5,8 +5,14 @@ local auto_command_utils = require('floating_tag_preview.auto_commands')
 return function(tag_command_options)
   vim.validate({['tag command options'] = { tag_command_options, 'table' }})
 
+  local preview_window_open_options = {
+    width = vim.g.floating_tag_preview_width or (vim.o.textwidth > 0 and vim.o.textwidth) or 70,
+    height = vim.g.floating_tag_preview_height or vim.o.previewheight,
+    border = vim.g.floating_tag_preview_border or 'single',
+  }
+
   auto_command_utils.clear_closing_auto_command()
-  window_utils.open_floating_preview_window()
+  window_utils.open_floating_preview_window(preview_window_open_options)
   tag_command_utils.execute_command(tag_command_options)
 
   if vim.g.floating_tag_preview_auto_close or true then
