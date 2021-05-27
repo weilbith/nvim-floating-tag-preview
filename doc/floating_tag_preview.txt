@@ -87,13 +87,18 @@ In case you prefer to use Lua for your configuration, just use
 syntax for booleans, lists and dictionaries/tables. Most variables can be
 changed during runtime to alternate the behavior. Exceptions are annotated.
 
-|g:floating_tag_preview_close_automatically|
+|g:floating_tag_preview_auto_closing_events|
 
-  Toggles the feature to automatically close the preview window on cursor
-  movement or window scrolling.
+  Events which will automatically close the opened floating preview window.
+  Setting this to an empty list disables the feature. The window can be still
+  manually closed with |CTRL-W_z|.
 
   Default:~
-    `v:true`
+    `['CursorMoved', 'WinScrolled']`
+
+  Examples:~
+    `[]`
+    `['CursorMoved', 'WinNew']`
 
 |g:floating_tag_preview_highlight_tag_word|
 

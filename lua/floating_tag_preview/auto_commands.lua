@@ -1,8 +1,15 @@
 local auto_close_command_group_name = 'FloatingTagPreviewAutoClose'
+local auto_close_command_options = ' <buffer> ++once wincmd z'
 
-local function set_closing_auto_command()
+local function set_closing_auto_command(event_names)
+  vim.validate({['auto closing event name'] = { event_names, 'table' }})
+
   vim.api.nvim_command('augroup ' .. auto_close_command_group_name)
-  vim.api.nvim_command('autocmd! CursorMoved,WinScrolled <buffer> ++once wincmd z')
+
+  for _, event in ipairs(event_names) do
+    vim.api.nvim_command('autocmd! ' .. event .. auto_close_command_options)
+  end
+
   vim.api.nvim_command('augroup END')
 end
 

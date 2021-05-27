@@ -6,6 +6,9 @@ local auto_command_utils = require('floating_tag_preview.auto_commands')
 return function(tag_command_options)
   vim.validate({['tag command options'] = { tag_command_options, 'table' }})
 
+  auto_command_utils.clear_closing_auto_command()
+  highlight_utils.determine_and_cache_tag_word(tag_command_options.arguments)
+
   local preview_window_open_options = {
     width = vim.g.floating_tag_preview_width or (vim.o.textwidth > 0 and vim.o.textwidth) or 70,
     height = vim.g.floating_tag_preview_height or vim.o.previewheight,
@@ -15,9 +18,6 @@ return function(tag_command_options)
   local preview_window_set_options = vim.g.floating_tag_preview_window_options or {
     foldlevel = 100
   }
-
-  auto_command_utils.clear_closing_auto_command()
-  highlight_utils.determine_and_cache_tag_word(tag_command_options.arguments)
 
   local window_number = window_utils.open_floating_preview_window(
     preview_window_open_options,
@@ -30,7 +30,10 @@ return function(tag_command_options)
     highlight_utils.highlight_tag_word_in_preview_window(window_number)
   end
 
-  if vim.g.floating_tag_preview_close_automatically or true then
-    auto_command_utils.set_closing_auto_command()
-  end
+  local auto_closing_events = vim.g.floating_tag_preview_auto_closing_events or {
+    'CursorMoved',
+    'WinScrolled',
+  }
+
+  auto_command_utils.set_closing_auto_command(auto_closing_events)
 end
