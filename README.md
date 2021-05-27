@@ -20,6 +20,13 @@ can be also completely customized.
 - [Language Server Protocol Integration](#language-server-protocol-integration)
 
 
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/12543647/119907385-6c49d900-bf50-11eb-81a7-4b025bb3f1a1.GIF" alt="Demo GIF" width="500px" />
+</p>
+
+---
+
+
 ## Installation
 
 Use your favorite plugin manager to install the plugin or use it as [plain
