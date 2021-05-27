@@ -19,9 +19,8 @@ can be also completely customized.
 - [Customization](#customization)
 - [Language Server Protocol Integration](#language-server-protocol-integration)
 
-
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/12543647/119907385-6c49d900-bf50-11eb-81a7-4b025bb3f1a1.GIF" alt="Demo GIF" width="500px" />
+  <img src="https://user-images.githubusercontent.com/12543647/119907993-dc0c9380-bf51-11eb-8c1c-ae7793803a9b.GIF" alt="Demo GIF" width="500px" />
 </p>
 
 ---
