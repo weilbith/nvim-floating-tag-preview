@@ -26,7 +26,7 @@ return function(tag_command_options)
 
   tag_command_utils.execute_command(tag_command_options)
 
-  if vim.g.floating_tag_preview_highlight_tag_word or true then
+  if vim.g.floating_tag_preview_highlight_tag_word == true then
     highlight_utils.highlight_tag_word_in_preview_window(window_number)
   end
 
