@@ -14,19 +14,19 @@ local required_api_function_names = {
 
 -- Return boolean to signal if further check make sense.
 local function check_if_basic_api_exists()
-  vim.api.nvim_call_function('health#report_start', {"Check that NeoVim's Lua API exists"})
-  
+  vim.health.start("Check that NeoVim's Lua API exists")
+
   if vim ~= nil and vim.api ~= nil then
-    vim.api.nvim_call_function('health#report_ok', {'API exists'})
+    vim.health.ok('API exists')
     return true
   else
-    vim.api.nvim_call_function('health#report_error', {"API is missing!"})
+    vim.health.error("API is missing!")
     return false
   end
 end
 
 local function check_if_api_is_complete()
-  vim.api.nvim_call_function('health#report_start', {'Check that all API is complete'})
+  vim.health.start('Check that all API is complete')
 
   local missing_api_function_names = {}
 
@@ -39,12 +39,12 @@ local function check_if_api_is_complete()
   end
 
   if #missing_api_function_names == 0 then
-    vim.api.nvim_call_function('health#report_ok', {'All required API functions are available'})
+    vim.health.ok('All required API functions are available')
   else
     for _, api_function_name in ipairs(missing_api_function_names) do
-      vim.api.nvim_call_function('health#report_error', {
+      vim.health.error(
         "Missing API functions: '" .. api_function_name .. "'"
-      })
+      )
     end
   end
 end
